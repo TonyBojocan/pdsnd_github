@@ -25,7 +25,7 @@ def get_filters():
     while True:
         cls()
         welcome1 = '¤' * 84 + '\n'
-        welcome2 = '¤                  Hello! Let\'s explore some US bikeshare data!                    ¤\n'
+        welcome2 = '¤                  Welcome! Let\'s explore some US bikeshare data!                    ¤\n'
         full_message = welcome1 + welcome2 + welcome1
         print(full_message)
 
