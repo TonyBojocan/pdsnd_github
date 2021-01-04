@@ -1,5 +1,5 @@
 ### Date created
-Include the date you created this project and README file.
+December 2020
 
 ### Project Title
 Explore US Bikshare data
