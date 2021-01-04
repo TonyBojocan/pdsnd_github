@@ -5,7 +5,7 @@ Include the date you created this project and README file.
 Explore US Bikshare data
 
 ### Description
-Describe what your project is about and what it does
+This program provides analytics of bikeshare data from 3 different cities in the US.
 
 ### Files used
 Include the files used
