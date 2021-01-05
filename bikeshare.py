@@ -6,9 +6,9 @@ import os
 def cls():
     """clear screen
     source: https://stackoverflow.com/questions/517970/how-to-clear-the-interpreter-console"""
-    
+
     os.system('cls' if os.name=='nt' else 'clear')
-    
+
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
@@ -25,7 +25,7 @@ def get_filters():
     while True:
         cls()
         welcome1 = '¤' * 84 + '\n'
-        welcome2 = '¤                  Hello! Let\'s explore some US bikeshare data!                    ¤\n'
+        welcome2 = '¤                  Welcome! Let\'s explore some US bikeshare data!                    ¤\n'
         full_message = welcome1 + welcome2 + welcome1
         print(full_message)
 
@@ -33,10 +33,10 @@ def get_filters():
 
         valid_city = 'no'
         message = 'We have available data for chicago, new york city and washington. Which city would you like to explore?'
-        print(message)  
+        print(message)
         full_message += '\n' + message
 
-        while valid_city == 'no':   
+        while valid_city == 'no':
             city = input().lower()
             if city != 'chicago' and city != 'new york city' and city != 'washington':
                 cls()
@@ -53,12 +53,12 @@ def get_filters():
 
         # TO DO: get user input for month (all, january, february, ... , june)
 
-        valid_month = 'no'    
+        valid_month = 'no'
         message = 'Which month would you like to explore? Would you want to see \'all\' or for only a specific month from \'january\' to \'june\'?'
-        print(message)  
+        print(message)
         full_message += '\n' + message
 
-        while valid_month == 'no':   
+        while valid_month == 'no':
             month = input().lower()
             if month != 'all' and month != 'january' and month != 'february' and month != 'march' and month != 'april' and month != 'may' and month != 'june':
                 cls()
@@ -81,8 +81,8 @@ def get_filters():
         # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
         valid_day = 'no'
         message = 'Which day of the week would you like to explore? Would you want to see \'all\' or for only specific day from \'monday\' to \'sunday\'?'
-        print(message)  
-        full_message += '\n' + message    
+        print(message)
+        full_message += '\n' + message
         while valid_day == 'no':
             day = input().lower()
             if day != 'all' and day != 'monday' and day != 'tuesday' and day != 'wednesday' and day != 'thursday' and day != 'friday' and day != 'saturday' and day != 'sunday':
@@ -99,15 +99,15 @@ def get_filters():
             else:
                 message='You have selected to see the data for every ' + day.upper() + ' only.\n'
                 day_message = ' for every ' + day.upper()
-            full_message += '\n' + message      
+            full_message += '\n' + message
             print(full_message)
-                
+
         print('You wish to explore bikeshare data from ' + city.upper() + day_message + month_message + '.\nEnter any key to confirm. Or input \'restart\' to reinitiate the program.')
         answer = input()
         if answer.lower() != 'restart':
             print('Thanks for the confirmation!\n')
             break
-        
+
     return city, month, day
 
 def load_data(city, month, day):
@@ -122,32 +122,32 @@ def load_data(city, month, day):
         df - Pandas DataFrame containing city data filtered by month and day
     """
     df = pd.read_csv(CITY_DATA[city])
-        
+
     """Create columns for Month, Day of Week, Hour from Start Time"""
     df['Start Time'] = pd.to_datetime(df['Start Time'])
     df['Start-Month'] = df['Start Time'].dt.month_name()
     df['Start-Day of Week'] = df['Start Time'].dt.day_name()
     df['Start-Hour'] = df['Start Time'].dt.hour
-    
+
     if month != 'all':
         df = df.loc[df['Start-Month'] == month.title()]
-    
+
     if day != 'all':
-        df = df.loc[df['Start-Day of Week'] == day.title()]  
-    
+        df = df.loc[df['Start-Day of Week'] == day.title()]
+
     df.fillna(0)
-    
+
     return df
 
 def display_data(df):
     start = 0
     end = 5
-    message = 'Would you like to see the first 5 rows? Enter any key for yes or enter \'no\' to proceed to the data statistics.\n' 
-    
+    message = 'Would you like to see the first 5 rows? Enter any key for yes or enter \'no\' to proceed to the data statistics.\n'
+
     """Show all columns
     Source: https://stackoverflow.com/questions/11707586/how-do-i-expand-the-output-display-to-see-more-columns-of-a-pandas-dataframe"""
     pd.set_option('display.max_columns',12)
-    
+
     while True:
         answer = input(message)
         if answer.lower() == 'no':
@@ -168,10 +168,10 @@ def time_stats(df):
     print('*   Most Frequent Times of Travel   *')
     print('*'*37)
     start_time = time.time()
-    
+
     # TO DO: display the most common month
     common_month = df['Start-Month'].mode()[0]
-    print('\nMost Common Month: ', common_month) 
+    print('\nMost Common Month: ', common_month)
 
     # TO DO: display the most common day of week
     common_dayofweek = df['Start-Day of Week'].mode()[0]
@@ -180,8 +180,8 @@ def time_stats(df):
     # TO DO: display the most common start hour
     common_hour = df['Start-Hour'].mode()[0]
     print('Most Common Hours: ', common_hour)
-    
-    print("\nThis took %s seconds." % (time.time() - start_time)) 
+
+    print("\nThis took %s seconds." % (time.time() - start_time))
     answer = input('\nEnter any key to see the next statistics.\n')
 
 
@@ -206,13 +206,13 @@ def station_stats(df):
     common_stationcombination = df['Start to End Station trip'].mode()[0]
     print('Most Frequent Combination of Start Station and End Station trip: ', common_stationcombination)
 
-    print("\nThis took %s seconds." % (time.time() - start_time))  
+    print("\nThis took %s seconds." % (time.time() - start_time))
     answer = input('\nEnter any key to see the next statistics.\n')
 
 
 def trip_duration_stats(df):
     """Displays statistics on the total and average trip duration."""
-    
+
 
     print('*'*37)
     print('*           Trip Duration           *')
@@ -225,13 +225,13 @@ def trip_duration_stats(df):
     # TO DO: display mean travel time
     mean_travel_time = df['Trip Duration'].mean()/60
     print('Mean Travel Time: ',mean_travel_time.round(), ' minutes')
-    
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     answer = input('\nEnter any key to see the next statistics.\n')
 
 def user_stats(df):
     """Displays statistics on bikeshare users."""
-    
+
     print('*'*37)
     print('*          User Statistics          *')
     print('*'*37)
@@ -240,14 +240,14 @@ def user_stats(df):
     # TO DO: Display counts of user types
     user_types = df['User Type'].value_counts()
     print('\nCount per User Type:\n', user_types)
-    
+
     # TO DO: Display counts of gender
     try:
         gender = df['Gender'].value_counts()
         print('\nCount per Gender:\n', gender)
     except:
         print('\nNo available data for Gender\n')
-    
+
     # TO DO: Display earliest, most recent, and most common year of birth
     try:
         earliest_birth_year = df['Birth Year'].min()
@@ -258,7 +258,7 @@ def user_stats(df):
         print('Most Common Year of Birth: ', common_birth_year)
     except:
         print('No available data for Birth year\n')
-    
+
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -268,9 +268,13 @@ def main():
     while True:
         cls()
 
+        #This function will ask user to enter city, month and day to analize
         city, month, day = get_filters()
+
+        #This function will load data depending on the choice of the user
         df = load_data(city, month, day)
-        
+
+        #The following functions will display the analytics
         display_data(df)
         time_stats(df)
         station_stats(df)
